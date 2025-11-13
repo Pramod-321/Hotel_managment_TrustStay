@@ -1,39 +1,43 @@
-
 <!--vendor_dashboard.html-->
 {% extends "utils/vendor_base.html" %}
 
 {% block start %}
 
 <div class="container mt-5 ">
-    <div class="mx-auto col-6 text-center">
+    <div class="mx-auto col-6 text-center d-flex">
         <a href="{% url 'add_hotel'%}" class="btn btn-success"> Add Hotels</a>
+        <a href="{% url 'booking_detils'%}" class="btn btn-success"> Booking Details</a>
     </div>
-    {%for hotel in hotels%}
-     <div class="col-md-4">
-      <div class="card" style="width: 18rem; shadow">
-        <img
-          src="https://cdn-ijnhp.nitrocdn.com/pywIAllcUPgoWDXtkiXtBgvTOSromKIg/assets/images/optimized/rev-5794eaa/www.jaypeehotels.com/blog/wp-content/uploads/2024/09/Blog-6-scaled.jpg"
-          class="card-img-top"
-          alt="Room Image"
-        />
-        <div class="card-body shadow">
-          <h5 class="card-title">{{hotel.hotel_name}}</h5>
-          <p class="card-text">{{hotel.hotel_description}}</p>
-          <h5 class="card-text">hotel offer price : {{hotel.hotel_offer_price}}</h5>
+    <div class="row">
+        {%for hotel in hotels%}
+         <div class="col-md-4 mb-4">
+          <div class="card" style="width: 18rem; shadow">
+           <img
+            src="https://cdn-ijnhp.nitrocdn.com/pywIAllcUPgoWDXtkiXtBgvTOSromKIg/assets/images/optimized/rev-5794eaa/www.jaypeehotels.com/blog/wp-content/uploads/2024/09/Blog-6-scaled.jpg"
+            class="card-img-top"
+            alt="Room Image"
+           />
+           <div class="card-body shadow">
+            <h5 class="card-title">{{hotel.hotel_name}}</h5>
+            <p class="card-text">{{hotel.hotel_description|safe}}</p>
+            <h5 class="card-text">hotel offer price : {{hotel.hotel_offer_price}}</h5>
 
-          {%for amenetie in hotel.ameneties.all%}
-          <span class="badge bg-primary">{{amenetie.name}}</span>
-
-          {%endfor%}
+            {%for amenetie in hotel.ameneties.all%}
+             <span class="badge bg-primary">{{amenetie.name}}</span>
+            {%endfor%}
+            
+           </div>
           
-        </div>
-        <a href="{% url  'upload_image' hotel.hotel_slug  %}" class="btn btn-success">Images</a>
-      </div>
+           <a href="{% url  'upload_image' hotel.hotel_slug  %}" class="btn btn-success">Images</a>
+           <a href="{% url  'edit_hotel' hotel.hotel_slug  %}" class="btn btn-warning">Edit</a>
+          </div>
+         </div>
+        {%endfor%}
     </div>
-    {%endfor%}
-
 </div>
-
-
+    <script>
+      new FroalaEditor("div#froala-editor");
+    </script>
 
 {% endblock %}
+

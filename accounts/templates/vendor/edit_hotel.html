@@ -1,0 +1,130 @@
+<!--add_hotel.html-->
+{% extends "utils/vendor_base.html" %} {% block start %}
+
+<div class="container mt-5 pt-5 pb-5">
+  <div class="col-6 mx-auto card shadow p-4" style="border: none">
+    <h2>Add Hotel</h2>
+    <form method="POST">
+      {% include "utils/alert.html" %} {% csrf_token %}
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Hotel Name </label>
+        <input
+          id="email"
+          type="text"
+          name="hotel_name"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          value="{{hotel.hotel_name}}"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="floatingTextarea">Hotel Description</label>
+        <div class="form-floating">
+          <textarea
+            name="hotel_description"
+            id="flora"
+            class="form-control"
+            placeholder="Leave a comment here"
+          >
+ {{hotel.hotel_description }}| safe</textarea
+          >
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Hotel Price</label>
+        <input
+          id="hotel price"
+          type="number"
+          name="hotel_price"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          value="{{hotel.hotel_price}}"
+          step="0.01"
+          min="0"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Select Ameneties</label
+        >
+        <select
+          name="ameneties"
+          class="form-select form-select-sm"
+          multiple
+          aria-label="Small select example"
+        >
+          {% for amenetie in ameneties %}
+
+          <option
+            value="{{amenetie.id}}"
+            {%
+            if
+            amenetie
+            in
+            hotel.ameneties.all
+            %}
+            selected
+            {%
+            endif
+            %}
+          >
+            {{amenetie.name}}
+          </option>
+
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Hotel Offer Price</label
+        >
+        <input
+          id="email"
+          type="number"
+          name="hotel_offer_price"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          value="{{hotel.hotel_offer_price}}"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label
+          for="exampleInputEmail1"
+          class="form-label"
+          value="{{hotel.hotel_location}}"
+          >Hotel Location</label
+        >
+        <input
+          id="email"
+          type="text"
+          name="hotel_location"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          value="{{hotel.hotel_location}}"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+ <script>
+       new FroalaEditor("textarea#flora");
+        new FroalaEditor('textarea#flora', {
+          pluginsEnabled: ['video', 'align', 'link'],
+          toolbarButtons: ['insertVideo', 'bold', 'italic', 'underline'],
+          videoAllowedProviders: ['youtube', 'vimeo'],
+          videoInsertButtons: ['videoBack', '|', 'videoByURL', 'videoEmbed']
+        });
+
+</script>
+
+
+{% endblock %}

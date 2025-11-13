@@ -4,7 +4,7 @@ from home.models import HotelUser,HotelVendor,Hotel,Ameneties,HotelImages
 from .utils import generateRandomToken,sendEmailToken,sendOTPtoEmail,generateSlug
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth import authenticate,login  as auth_login
+from django.contrib.auth import authenticate,logout,login  as auth_login 
 import random
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -271,6 +271,51 @@ def upload_image(request,slug):
 def delete_image(request,id):
     image_id=HotelImages.objects.get(id=id)
     image_id.delete()
-    return redirect(request,'/accounts/vendor_dashboard.html')
+    return redirect('/accounts/vendor_dashboard/')
+
+
+
+@login_required(login_url='login_vendor')
+def edit_hotel(request,slug):
+    hotel_obj=Hotel.objects.get(hotel_slug=slug)
+    if request.user.id != hotel_obj.hotel_owner.id:
+        return HttpResponseRedirect("you are not authorized ")
+    if request.method =="POST":
+        hotel_name=request.POST.get('hotel_name')
+        hotel_description = request.POST.get('hotel_description')
+        hotel_price= request.POST.get('hotel_price')
+        hotel_offer_price= request.POST.get('hotel_offer_price')
+        hotel_location= request.POST.get('hotel_location')
+        
+        hotel_obj.hotel_name = hotel_name
+        hotel_obj.hotel_description = hotel_description
+        hotel_obj.hotel_price = hotel_price
+        hotel_obj.hotel_offer_price = hotel_offer_price
+        hotel_obj.hotel_location = hotel_location
+        hotel_obj.save()
+        
+        messages.success(request,"Hotel Details Updated ")
+        return HttpResponseRedirect(request.path_info)
+
+    # Retrieve amenities for rendering in the template
+    ameneties = Ameneties.objects.all()
+    
+    # Render the edit_hotel.html template with hotel and amenities as context
+    return render(request, 'vendor/edit_hotel.html', context={'hotel': hotel_obj, 'ameneties': ameneties})
+
+
+
+def logout_view(request):
+    logout(request)
+    messages.warning(request,"Yor are loged Out  ")
+    return redirect('/accounts/login/')
+
+
+def booking_details(request):
+    return render(request,'vendor/booking_details.html')
+
+
+        
+
     
     

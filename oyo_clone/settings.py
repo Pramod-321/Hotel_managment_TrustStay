@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -144,6 +145,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    # your patterns
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

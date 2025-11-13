@@ -1,0 +1,33 @@
+{% extends "utils/vendor_base.html" %} {% block start %}
+
+
+<div class="container mt-5  ">
+<table class="table test-center">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">phone NO </th>
+      <th scope="col">start Date</th>
+      <th scope="col">End Date</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for booking in Booking_details%}
+    <tr>
+      <th scope="row">1</th>
+      <td></td>
+      <td>Otto</td>
+      <td>{{booking.start_date}}</td> 
+      <td>{{booking.end_date}}</td>
+      
+    </tr>
+    {% endfor%}
+    
+    
+  </tbody>
+</table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "utils/base.html" %}
+{% block start %}
+<div class="container">
+<div class="card-body mt-5">
+    <!-- Display the hotel name -->
+    <h5 class="card-title">{{ hotel.hotel_name }}</h5>
+
+    <!-- Display the hotel prices -->
+    Price <span class=" ">{{ hotel.hotel_price }}</span>
+    Offer Price <span class=" ">{{ hotel.hotel_offer_price }}</span>
+    <hr>
+
+    <!-- Display the hotel location -->
+    <p>{{ hotel.hotel_location }}</p>
+
+    <!-- Display the hotel amenities -->
+    <span class="badge text-bg-primary">Swimming Pool</span>
+    <span class="badge text-bg-primary">AC</span>
+
+    <!-- Display the hotel description (with safe filter to render HTML) -->
+    <p class="mt-5">{{ hotel.hotel_description|safe }}</p>
+   <!-- Display the hotel images -->
+   
+   {% if request.user.is_authenticated%}
+
+    <form method="POST">
+      {% csrf_token %}
+      {%include "utils/alert.html "%}
+      
+      <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Start Date</label>
+                <input type="date" name="start_date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+
+        <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">end Date</label>
+                <input type="date" name="end_date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+  <button class="btn btn-danger mt-5"> Book now </button>
+    </form>
+  {%else%}
+  <a href="{%url 'login'%}" class="btn btn-warning"> Login </a>
+  {%endif%}
+  </div>
+  </div>
+
+{%endblock%}
+
+
